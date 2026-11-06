@@ -1,9 +1,6 @@
 
 const STORAGE_KEY = "equipment-loan-control:equipment";
 
-
-
-
 const defaultEquipment = [
     {id: 1, name: "Laptop", isAvailable: true },
     {id: 2, name: "Projector", isAvailable: false },
@@ -20,11 +17,27 @@ const equipment =
 
 
 const equipmentList = document.querySelector("#equipment-list");
+const equipmentForm = document.querySelector("#equipment-form");
+const equipmentNameInput = document.querySelector("#equipment-name");
+const formError = document.querySelector("#form-error");
+
 
 function saveEquipment() {
     const serializedEquipment = JSON.stringify(equipment);
 
     localStorage.setItem(STORAGE_KEY, serializedEquipment)
+}
+
+function getNextEquipmentId() {
+    let highestId = 0;
+
+    for (const item of equipment) {
+        if (item.id > highestId) {
+            highestId = item.id;
+        }
+    }
+
+    return highestId + 1;
 }
 
 function renderEquipment() {
@@ -52,3 +65,30 @@ function renderEquipment() {
 }
 
 renderEquipment();
+
+equipmentForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    formError.textContent = "";
+
+    const name = equipmentNameInput.value.trim(); // Remove spaces at the beggining and end.
+
+    if (name.length === 0) {
+        formError.textContent = "Enter an equipment name.";
+        equipmentNameInput.focus(); // Returns the cursor to the field to facilitate another entry.
+        return;
+    }
+
+    const newEquipment = {
+        id: getNextEquipmentId(),
+        name: name,
+        isAvailable : true,
+    };
+
+    equipment.push(newEquipment);
+    saveEquipment();
+    renderEquipment();
+
+    equipmentForm.reset();
+    equipmentNameInput.focus();
+});

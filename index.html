@@ -11,6 +11,26 @@
       <h1>Equipment Loan Control</h1>
       <p>Track equipment availability and loans.</p>
 
+      <h2>Add equipment</h2>
+
+      <form id="equipment-form">
+        <label for="equipment-name">Equipment name</label>
+
+        <!-- aria-describedby links this input to the "form-error" message so screen readers can read it as a description. -->
+        <input
+          type="text"
+          id="equipment-name"
+          name="name"
+          maxlength="80"
+          aria-describedby="form-error"
+          required
+        >
+
+        <button type="submit">Add equipment</button>
+
+        <p id="form-error" role="alert"></p> <!-- Displays validation errors; role="alert" tells screen readers to announce the message when it appears. -->
+      </form>
+      
       <h2>Equipment</h2>
       <ul id="equipment-list"></ul>
     </main>
