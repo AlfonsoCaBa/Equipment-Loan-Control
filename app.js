@@ -16,7 +16,17 @@ function renderEquipment() {
         const status = item.isAvailable ? "Available" : "On loan";
 
         listItem.textContent = `${item.name} - ${status}`;
+
+        const actionButton = document.createElement("button");
+        actionButton.type = "button";
+        actionButton.textContent = item.isAvailable ? "Borrow" : "Return";
+
+        actionButton.addEventListener("click", () => {
+            item.isAvailable = !item.isAvailable;
+            renderEquipment();
+        });
         
+        listItem.append(" ", actionButton); //Leaves a space and then the button to the element 
         equipmentList.append(listItem);
     }
 }
